@@ -15,13 +15,26 @@ import ComposableArchitecture
 
 @main
 struct TCAPracticeApp: App {
+    
+    // TCA Tutorial - Your First Feature
+    static let store = Store(initialState: CounterFeature.State()) {
+        // When used it will print every action that the reducer processes to the console, and it will print how the state changed after processing the action. The method will also go through great lengths to collapse the state difference to a compact form. This includes not displaying nested state if it hasn’t changed, and not showing elements in collections that haven’t changed.
+        CounterFeature()
+            ._printChanges()
+    }
+    
     var body: some Scene {
         WindowGroup {
             // TCA Basic Usage View
-            FeatureView(
-                store: Store(initialState: Feature.State()) {
-                    Feature()
-                }
+//            FeatureView(
+//                store: Store(initialState: Feature.State()) {
+//                    Feature()
+//                }
+//            )
+            
+            // TCA Tutorial - Your First Feature
+            CounterView(
+                store: TCAPracticeApp.store
             )
             
             // TCA Practice View
