@@ -5,6 +5,7 @@
 //  Created by Insu Park on 10/9/23.
 //
 
+import Foundation
 import SwiftUI
 import ComposableArchitecture
 
@@ -15,6 +16,8 @@ struct CounterFeature: Reducer {
     struct State {
         // For the purpose of a simple counter feature, the state consists of just a single integer, the current count, and the actions consist of tapping buttons to either increment or decrement the count.
         var count = 0
+        var fact: String?
+        var isLoading: Bool = false
     }
     
     // MARK: - Required
@@ -22,6 +25,8 @@ struct CounterFeature: Reducer {
     // Tip - It is best to name the Action cases after literally what the user does in the UI, such as incrementButtonTapped, rather than what logic you want to perform, such as incrementCount.
     enum Action {
         case decrementButtonTapped
+        case factButtonTapped
+        case factResponse(String)
         case incrementButtonTapped
     }
     
@@ -40,9 +45,28 @@ struct CounterFeature: Reducer {
         switch action {
         case .decrementButtonTapped:
             state.count -= 1
+            state.fact = nil
             return .none
+        case .factButtonTapped:
+            state.fact = nil
+            state.isLoading = true
+            
+            // This provides you with an asynchronous context to perform any kind of work you want, as well as a handle (send) for sending actions back into the system.
+            return .run { [count = state.count] send in
+                // ✅ Do async work in here, and send actions back into the system.
+                // Type : (Data, URLResponse)
+                let (data, _) = try await URLSession.shared
+                  .data(from: URL(string: "http://numbersapi.com/\(count)")!)
+                let fact = String(decoding: data, as: UTF8.self)
+                await send(.factResponse(fact))
+            }
+        case let .factResponse(fact):
+          state.fact = fact
+          state.isLoading = false
+          return .none
         case .incrementButtonTapped:
             state.count += 1
+            state.fact = nil
             return .none
         }
       }
@@ -103,6 +127,23 @@ struct CounterView: View {
                     .padding()
                     .background(Color.black.opacity(0.1))
                     .cornerRadius(10)
+                    //  that when tapped makes a network request to fetch a fact about the number that is currently displayed.
+                }
+                Button("Fact") {
+                    viewStore.send(.factButtonTapped)
+                }
+                .font(.largeTitle)
+                .padding()
+                .background(Color.black.opacity(0.1))
+                .cornerRadius(10)
+                
+                if viewStore.isLoading {
+                    ProgressView()
+                } else if let fact = viewStore.fact {
+                    Text(fact)
+                        .font(.largeTitle)
+                        .multilineTextAlignment(.center)
+                        .padding()
                 }
             }
         }

@@ -15,6 +15,7 @@
 		E6950FCE2AD2932200FA5D33 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E6950FCD2AD2932200FA5D33 /* ComposableArchitecture */; };
 		E6950FD12AD3D37700FA5D33 /* YourFirstFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FD02AD3D37700FA5D33 /* YourFirstFeature.swift */; };
 		E6950FD52AD3D5F600FA5D33 /* CounterFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FD42AD3D5F600FA5D33 /* CounterFeature.swift */; };
+		E6950FD92AD3FB9200FA5D33 /* AddingSideEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FD82AD3FB9200FA5D33 /* AddingSideEffects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		E6950FCF2AD297AD00FA5D33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E6950FD02AD3D37700FA5D33 /* YourFirstFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFirstFeature.swift; sourceTree = "<group>"; };
 		E6950FD42AD3D5F600FA5D33 /* CounterFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterFeature.swift; sourceTree = "<group>"; };
+		E6950FD82AD3FB9200FA5D33 /* AddingSideEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingSideEffects.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				E6950FD32AD3D5E100FA5D33 /* YourFirstFeature */,
+				E6950FD72AD3FB7A00FA5D33 /* AddingSideEffects */,
+				E6950FDB2AD408F200FA5D33 /* Common */,
 			);
 			path = Essentials;
 			sourceTree = "<group>";
@@ -99,7 +103,6 @@
 			isa = PBXGroup;
 			children = (
 				E6950FD02AD3D37700FA5D33 /* YourFirstFeature.swift */,
-				E6950FD42AD3D5F600FA5D33 /* CounterFeature.swift */,
 			);
 			path = YourFirstFeature;
 			sourceTree = "<group>";
@@ -110,6 +113,22 @@
 				E6950FD22AD3D39500FA5D33 /* Essentials */,
 			);
 			path = Tutorial;
+			sourceTree = "<group>";
+		};
+		E6950FD72AD3FB7A00FA5D33 /* AddingSideEffects */ = {
+			isa = PBXGroup;
+			children = (
+				E6950FD82AD3FB9200FA5D33 /* AddingSideEffects.swift */,
+			);
+			path = AddingSideEffects;
+			sourceTree = "<group>";
+		};
+		E6950FDB2AD408F200FA5D33 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E6950FD42AD3D5F600FA5D33 /* CounterFeature.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6950FD92AD3FB9200FA5D33 /* AddingSideEffects.swift in Sources */,
 				E6950FBE2AD2827200FA5D33 /* ContentView.swift in Sources */,
 				E6950FBC2AD2827200FA5D33 /* TCAPracticeApp.swift in Sources */,
 				E6950FCB2AD28FEC00FA5D33 /* TheComposableArchitecture.swift in Sources */,
