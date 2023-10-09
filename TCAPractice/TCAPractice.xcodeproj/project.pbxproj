@@ -13,6 +13,8 @@
 		E6950FC32AD2827300FA5D33 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6950FC22AD2827300FA5D33 /* Preview Assets.xcassets */; };
 		E6950FCB2AD28FEC00FA5D33 /* TheComposableArchitecture.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FCA2AD28FEC00FA5D33 /* TheComposableArchitecture.swift */; };
 		E6950FCE2AD2932200FA5D33 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E6950FCD2AD2932200FA5D33 /* ComposableArchitecture */; };
+		E6950FD12AD3D37700FA5D33 /* YourFirstFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FD02AD3D37700FA5D33 /* YourFirstFeature.swift */; };
+		E6950FD52AD3D5F600FA5D33 /* CounterFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FD42AD3D5F600FA5D33 /* CounterFeature.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,8 @@
 		E6950FC22AD2827300FA5D33 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E6950FCA2AD28FEC00FA5D33 /* TheComposableArchitecture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheComposableArchitecture.swift; sourceTree = "<group>"; };
 		E6950FCF2AD297AD00FA5D33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E6950FD02AD3D37700FA5D33 /* YourFirstFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFirstFeature.swift; sourceTree = "<group>"; };
+		E6950FD42AD3D5F600FA5D33 /* CounterFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterFeature.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,9 +81,35 @@
 		E6950FC92AD28FD600FA5D33 /* Readme */ = {
 			isa = PBXGroup;
 			children = (
+				E6950FD62AD3E3B800FA5D33 /* Tutorial */,
 				E6950FCA2AD28FEC00FA5D33 /* TheComposableArchitecture.swift */,
 			);
 			path = Readme;
+			sourceTree = "<group>";
+		};
+		E6950FD22AD3D39500FA5D33 /* Essentials */ = {
+			isa = PBXGroup;
+			children = (
+				E6950FD32AD3D5E100FA5D33 /* YourFirstFeature */,
+			);
+			path = Essentials;
+			sourceTree = "<group>";
+		};
+		E6950FD32AD3D5E100FA5D33 /* YourFirstFeature */ = {
+			isa = PBXGroup;
+			children = (
+				E6950FD02AD3D37700FA5D33 /* YourFirstFeature.swift */,
+				E6950FD42AD3D5F600FA5D33 /* CounterFeature.swift */,
+			);
+			path = YourFirstFeature;
+			sourceTree = "<group>";
+		};
+		E6950FD62AD3E3B800FA5D33 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				E6950FD22AD3D39500FA5D33 /* Essentials */,
+			);
+			path = Tutorial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +191,8 @@
 				E6950FBE2AD2827200FA5D33 /* ContentView.swift in Sources */,
 				E6950FBC2AD2827200FA5D33 /* TCAPracticeApp.swift in Sources */,
 				E6950FCB2AD28FEC00FA5D33 /* TheComposableArchitecture.swift in Sources */,
+				E6950FD52AD3D5F600FA5D33 /* CounterFeature.swift in Sources */,
+				E6950FD12AD3D37700FA5D33 /* YourFirstFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
