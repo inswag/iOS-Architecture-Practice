@@ -18,6 +18,7 @@ struct CounterFeature: Reducer {
         var count = 0
         var fact: String?
         var isLoading: Bool = false
+        var isTimerRunning = false
     }
     
     // MARK: - Required
@@ -28,7 +29,11 @@ struct CounterFeature: Reducer {
         case factButtonTapped
         case factResponse(String)
         case incrementButtonTapped
+        case timerTick
+        case toggleTimerButtonTapped
     }
+    
+    enum CancelID { case Timer }
     
     /*
      Note
@@ -68,6 +73,24 @@ struct CounterFeature: Reducer {
             state.count += 1
             state.fact = nil
             return .none
+        case .timerTick:
+          state.count += 1
+          state.fact = nil
+          return .none
+        case .toggleTimerButtonTapped:
+            state.isTimerRunning.toggle()
+            
+            if state.isTimerRunning {
+                return .run { send in
+                    while true {
+                      try await Task.sleep(for: .seconds(1))
+                      await send(.timerTick)
+                    }
+                }
+                .cancellable(id: CancelID.Timer)
+            } else {
+                return .cancel(id: CancelID.Timer)
+            }
         }
       }
     
@@ -129,6 +152,13 @@ struct CounterView: View {
                     .cornerRadius(10)
                     //  that when tapped makes a network request to fetch a fact about the number that is currently displayed.
                 }
+                Button(viewStore.isTimerRunning ? "Stop timer" : "Start timer") {
+                  viewStore.send(.toggleTimerButtonTapped)
+                }
+                .font(.largeTitle)
+                .padding()
+                .background(Color.black.opacity(0.1))
+                .cornerRadius(10)
                 Button("Fact") {
                     viewStore.send(.factButtonTapped)
                 }
