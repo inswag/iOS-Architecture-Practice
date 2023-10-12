@@ -45,7 +45,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E6950FF62AD547A200FA5D33"
+               BlueprintIdentifier = "E695101B2AD54ABF00FA5D33"
                BuildableName = "TCAPracticeTests.xctest"
                BlueprintName = "TCAPracticeTests"
                ReferencedContainer = "container:TCAPractice.xcodeproj">

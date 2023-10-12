@@ -19,6 +19,9 @@
 		E6950FDE2AD533CF00FA5D33 /* ManagingATimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FDD2AD533CF00FA5D33 /* ManagingATimer.swift */; };
 		E6950FE12AD535EE00FA5D33 /* TestingYourFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FE02AD535EE00FA5D33 /* TestingYourFeature.swift */; };
 		E695101F2AD54ABF00FA5D33 /* TCAPracticeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E695101E2AD54ABF00FA5D33 /* TCAPracticeTests.swift */; };
+		E69510282AD7C2F600FA5D33 /* YourFirstPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69510272AD7C2F600FA5D33 /* YourFirstPresentation.swift */; };
+		E695102B2AD7C48600FA5D33 /* ContactsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E695102A2AD7C48600FA5D33 /* ContactsFeature.swift */; };
+		E695102D2AD7D2EA00FA5D33 /* AddContactFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E695102C2AD7D2EA00FA5D33 /* AddContactFeature.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		E6950FE22AD53AA800FA5D33 /* CounterFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterFeatureTests.swift; sourceTree = "<group>"; };
 		E695101C2AD54ABF00FA5D33 /* TCAPracticeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TCAPracticeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E695101E2AD54ABF00FA5D33 /* TCAPracticeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCAPracticeTests.swift; sourceTree = "<group>"; };
+		E69510272AD7C2F600FA5D33 /* YourFirstPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFirstPresentation.swift; sourceTree = "<group>"; };
+		E695102A2AD7C48600FA5D33 /* ContactsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsFeature.swift; sourceTree = "<group>"; };
+		E695102C2AD7D2EA00FA5D33 /* AddContactFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactFeature.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +146,7 @@
 		E6950FD62AD3E3B800FA5D33 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				E69510252AD7C2D900FA5D33 /* Navigation */,
 				E6950FD22AD3D39500FA5D33 /* Essentials */,
 			);
 			path = Tutorial;
@@ -191,6 +198,32 @@
 				E695101E2AD54ABF00FA5D33 /* TCAPracticeTests.swift */,
 			);
 			path = TCAPracticeTests;
+			sourceTree = "<group>";
+		};
+		E69510252AD7C2D900FA5D33 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				E69510262AD7C2E300FA5D33 /* YourFirstPresentation */,
+				E69510292AD7C47800FA5D33 /* Common */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		E69510262AD7C2E300FA5D33 /* YourFirstPresentation */ = {
+			isa = PBXGroup;
+			children = (
+				E69510272AD7C2F600FA5D33 /* YourFirstPresentation.swift */,
+			);
+			path = YourFirstPresentation;
+			sourceTree = "<group>";
+		};
+		E69510292AD7C47800FA5D33 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E695102A2AD7C48600FA5D33 /* ContactsFeature.swift */,
+				E695102C2AD7D2EA00FA5D33 /* AddContactFeature.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,10 +336,13 @@
 				E6950FD92AD3FB9200FA5D33 /* AddingSideEffects.swift in Sources */,
 				E6950FBE2AD2827200FA5D33 /* ContentView.swift in Sources */,
 				E6950FBC2AD2827200FA5D33 /* TCAPracticeApp.swift in Sources */,
+				E695102D2AD7D2EA00FA5D33 /* AddContactFeature.swift in Sources */,
 				E6950FE12AD535EE00FA5D33 /* TestingYourFeature.swift in Sources */,
 				E6950FCB2AD28FEC00FA5D33 /* TheComposableArchitecture.swift in Sources */,
+				E69510282AD7C2F600FA5D33 /* YourFirstPresentation.swift in Sources */,
 				E6950FD52AD3D5F600FA5D33 /* CounterFeature.swift in Sources */,
 				E6950FD12AD3D37700FA5D33 /* YourFirstFeature.swift in Sources */,
+				E695102B2AD7C48600FA5D33 /* ContactsFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
