@@ -30,3 +30,11 @@ import Foundation
   - Now that we have our two isolated features built, it is time to integrate them together so that you can navigate to the “Add Contact” screen from the contacts list screen. To do this we will first integrate the features’ reducers, which consists of utilizing 'PresentationState' and 'PresentationAction' to integrate the domains, and the reducer operator 'ifLet(_:action:destination:fileID:line:)' to integrate the reducers.
  
  */
+
+/*
+  < Section 3 - Integrate views >
+ 
+  * Introduction
+   - Now that we have integrated the domain and reducers of the two features we must integrate their views. In particular, we will present an AddContactView from the ContactsView.
+ 
+ */

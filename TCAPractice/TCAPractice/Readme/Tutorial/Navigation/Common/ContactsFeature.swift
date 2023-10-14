@@ -55,7 +55,7 @@ struct ContactsFeature: Reducer {
                 state.addContact = nil
                 return .none
             case .addContact:
-              return .none
+                return .none
             }
         }
         .ifLet(\.$addContact, action: /Action.addContact) {
@@ -65,20 +65,18 @@ struct ContactsFeature: Reducer {
         // Integrate the reducers together by making use of the ifLet(_:action:destination:fileID:line:) reducer operator.
         
         /*
-          About Above Method (.ifLet)
-          * This creates a new reducer that runs the child reducer when a child action comes into the system, and runs the parent reducer on all actions. It also automatically handles effect cancellation when the child feature is dismissed, and a lot more. See the documentation for more information.
+         About Above Method (.ifLet)
+         * This creates a new reducer that runs the child reducer when a child action comes into the system, and runs the parent reducer on all actions. It also automatically handles effect cancellation when the child feature is dismissed, and a lot more. See the documentation for more information.
          
-          After doing that
-          * That is all it takes to integrate the two features’ domains together. Before moving onto the view, we can start flexing some of the muscles that the library gives us. Because the two features are so tightly integrated together we can now easily implement the presentation and dismissal of the “Add Contact” feature.
+         After doing that
+         * That is all it takes to integrate the two features’ domains together. Before moving onto the view, we can start flexing some of the muscles that the library gives us. Because the two features are so tightly integrated together we can now easily implement the presentation and dismissal of the “Add Contact” feature.
          */
         
         /*
-          After All doing that, finally...
-          * That is all it takes to implement communication between parent and child features. The parent feature can create state in order to drive navigation, and the parent feature can listen for child actions to figure out what additional logic it wants to layer on. Next we need to integrate the views together.
+         After All doing that, finally...
+         * That is all it takes to implement communication between parent and child features. The parent feature can create state in order to drive navigation, and the parent feature can listen for child actions to figure out what additional logic it wants to layer on. Next we need to integrate the views together.
          */
-        
     }
-    
 }
 
 struct ContactsView: View {
@@ -106,7 +104,26 @@ struct ContactsView: View {
                 }
             }
         }
+        .sheet(
+            store: self.store.scope(
+                state: \.$addContact,
+                action: { .addContact($0) }
+            )
+        ) { addContactStore in
+            NavigationStack {
+                AddContactView(store: addContactStore)
+            }
+        }
+
+        /*
+          * Before using method .sheet ..
+           - The library comes with a variety of tools that mimic SwiftUI’s native navigation tools (such as sheets, popovers, fullscreen covers, alerts, and confirmation dialogs), but they take Stores instead of bindings.
+         
+          * About method .sheet (a little difficult to understand this sentence)
+           - Use the sheet(store:) view modifier by scoping your store down to just the presentation domain of the addContact feature. When the addContact state becomes non-nil, a new store will be derived focused only on the AddContactFeature domain, which is what you can pass to the AddContactView.
+         */
     }
+    
 }
 
 struct ContactsView_Previews: PreviewProvider {
