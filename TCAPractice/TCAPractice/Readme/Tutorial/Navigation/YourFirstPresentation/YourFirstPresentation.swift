@@ -38,3 +38,15 @@ import Foundation
    - Now that we have integrated the domain and reducers of the two features we must integrate their views. In particular, we will present an AddContactView from the ContactsView.
  
  */
+
+/*
+ < Section 4 - Child-to-parent communication >
+ 
+ * Introduction
+  - Problem)
+   # In the previous sections we facilitated child-to-parent communication by having the parent reducer inspect the actions in the child so that we could determine when the “Save” and “Cancel” buttons were tapped.
+    -> This is not ideal since it may lead to the parent making assumptions about what logic it should perform when something happens in the child feature.
+
+   - Solution)
+    # A better pattern is to use so-called “delegate actions” for the child feature to directly tell the parent what it wants done.
+ */

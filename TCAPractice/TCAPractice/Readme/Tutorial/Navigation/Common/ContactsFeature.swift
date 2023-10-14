@@ -43,17 +43,22 @@ struct ContactsFeature: Reducer {
                     contact: Contact(id: UUID(), name: "")
                 )
                 return .none
-            case .addContact(.presented(.cancelButtonTapped)):
+//            case .addContact(.presented(.delegate(.cancel))):
                 // When the “Cancel” button is tapped inside the “Add Contacts” feature we want to dismiss the feature and do nothing else. This can be accomplished by simply nil-ing out the addContact state.
-                state.addContact = nil
-                return .none
+//                state.addContact = nil
+//                return .none
                 // Note - We are destructuring on the PresentationAction.presented(_:) case in order to listen for actions inside the “Add Contact” feature.
-            case .addContact(.presented(.saveButtonTapped)):
-                guard let contact = state.addContact?.contact
-                else { return .none }
+            case let .addContact(.presented(.delegate(.saveContact(contact)))):
+                // guard let contact = state.addContact?.contact
+                // else { return .none }
                 state.contacts.append(contact)
-                state.addContact = nil
+//                state.addContact = nil
                 return .none
+                
+                /*
+                 - After applying .saveContact(Contact)...
+                 The application should work exactly as it did before the “delegate action” refactor, but now the child feature can accurately describe what it wants the parent to do rather than the parent make assumptions. There is still room for improvement though. It is very common for a child feature to want to dismiss itself, such as is the case when tapping “Cancel”. It is too cumbersome to create a delegate action just to communicate this to the parent, and so the library comes with a special tool for this.
+                 */
             case .addContact:
                 return .none
             }
