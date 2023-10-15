@@ -23,6 +23,7 @@ struct ContactsFeature: Reducer {
         // Integrate the features’ states together by using the PresentationState property wrapper to hold onto an optional value.
         // A nil value represents that the “Add Contacts” feature is not presented, and a non-nil value represents that it is presented.
         @PresentationState var addContact: AddContactFeature.State?
+        @PresentationState var alert: AlertState<Action.Alert>?
         var contacts: IdentifiedArrayOf<Contact> = []
     }
     
@@ -33,6 +34,12 @@ struct ContactsFeature: Reducer {
         // Integrate the feature’s actions together
         // This allows the parent to observe every action sent from the child feature.
         case addContact(PresentationAction<AddContactFeature.Action>)
+        case alert(PresentationAction<Alert>)
+        case deleteButtonTapped(id: Contact.ID)
+        enum Alert: Equatable {
+            case confirmDeletion(id: Contact.ID)
+            // Note - The only choices in the alert are to cancel or confirm deletion, but we do not need to model the cancel action. That will be handled automatically for us.
+        }
     }
     
     var body: some ReducerOf<Self> {
@@ -61,11 +68,26 @@ struct ContactsFeature: Reducer {
                  */
             case .addContact:
                 return .none
+            case let .deleteButtonTapped(id: id):
+                state.alert = AlertState {
+                    TextState("Are you sure?")
+                } actions: {
+                    ButtonState(role: .destructive, action: .confirmDeletion(id: id)) {
+                        TextState("Delete")
+                    }
+                }
+                return .none
+            case let .alert(.presented(.confirmDeletion(id: id))):
+              state.contacts.remove(id: id)
+              return .none
+            case .alert:
+              return .none
             }
         }
         .ifLet(\.$addContact, action: /Action.addContact) {
             AddContactFeature()
         }
+        .ifLet(\.$alert, action: /Action.alert)
         
         // Integrate the reducers together by making use of the ifLet(_:action:destination:fileID:line:) reducer operator.
         
@@ -94,7 +116,16 @@ struct ContactsView: View {
             WithViewStore(self.store, observe: \.contacts) { viewStore in
                 List {
                     ForEach(viewStore.state) { contact in
-                        Text(contact.name)
+                        HStack {
+                            Text(contact.name)
+                            Spacer()
+                            Button {
+                                viewStore.send(.deleteButtonTapped(id: contact.id))
+                            } label: {
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
+                            }
+                        }
                     }
                 }
                 .navigationTitle("Contacts")
@@ -119,6 +150,12 @@ struct ContactsView: View {
                 AddContactView(store: addContactStore)
             }
         }
+        .alert(
+              store: self.store.scope(
+                state: \.$alert,
+                action: { .alert($0) }
+              )
+            )
 
         /*
           * Before using method .sheet ..
