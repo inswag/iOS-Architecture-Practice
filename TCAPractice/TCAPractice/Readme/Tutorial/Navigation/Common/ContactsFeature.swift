@@ -22,20 +22,27 @@ struct ContactsFeature: Reducer {
     struct State: Equatable {
         // Integrate the features’ states together by using the PresentationState property wrapper to hold onto an optional value.
         // A nil value represents that the “Add Contacts” feature is not presented, and a non-nil value represents that it is presented.
-        @PresentationState var addContact: AddContactFeature.State?
-        @PresentationState var alert: AlertState<Action.Alert>?
         var contacts: IdentifiedArrayOf<Contact> = []
+        
+        // Integrating destinations
+//        @PresentationState var addContact: AddContactFeature.State?
+//        @PresentationState var alert: AlertState<Action.Alert>?
+        @PresentationState var destination: Destination.State?
     }
     
     
     enum Action: Equatable {
         // a single action for when the “+” button is tapped
         case addButtonTapped
+        case deleteButtonTapped(id: Contact.ID)
+        
         // Integrate the feature’s actions together
         // This allows the parent to observe every action sent from the child feature.
-        case addContact(PresentationAction<AddContactFeature.Action>)
-        case alert(PresentationAction<Alert>)
-        case deleteButtonTapped(id: Contact.ID)
+        // But this will be replaced with a single case that holds onto Destination.Action.
+//        case addContact(PresentationAction<AddContactFeature.Action>)
+//        case alert(PresentationAction<Alert>)
+        case destination(PresentationAction<Destination.Action>)
+        
         enum Alert: Equatable {
             case confirmDeletion(id: Contact.ID)
             // Note - The only choices in the alert are to cancel or confirm deletion, but we do not need to model the cancel action. That will be handled automatically for us.
@@ -46,48 +53,61 @@ struct ContactsFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .addButtonTapped:
-                state.addContact = AddContactFeature.State(
-                    contact: Contact(id: UUID(), name: "")
+                state.destination = .addContact(
+                    AddContactFeature.State(
+                        contact: Contact(id: UUID(), name: "")
+                    )
                 )
+            
+                return .none
+                
+            case let .destination(.presented(.addContact(.delegate(.saveContact(contact))))):
+                state.contacts.append(contact)
+                return .none
+            case let .destination(.presented(.alert(.confirmDeletion(id: id)))):
+                state.contacts.remove(id: id)
+                return .none
+            case .destination:
                 return .none
 //            case .addContact(.presented(.delegate(.cancel))):
                 // When the “Cancel” button is tapped inside the “Add Contacts” feature we want to dismiss the feature and do nothing else. This can be accomplished by simply nil-ing out the addContact state.
 //                state.addContact = nil
 //                return .none
                 // Note - We are destructuring on the PresentationAction.presented(_:) case in order to listen for actions inside the “Add Contact” feature.
-            case let .addContact(.presented(.delegate(.saveContact(contact)))):
+//            case let .addContact(.presented(.delegate(.saveContact(contact)))):
                 // guard let contact = state.addContact?.contact
                 // else { return .none }
-                state.contacts.append(contact)
+//                state.contacts.append(contact)
 //                state.addContact = nil
-                return .none
+//                return .none
                 
                 /*
                  - After applying .saveContact(Contact)...
                  The application should work exactly as it did before the “delegate action” refactor, but now the child feature can accurately describe what it wants the parent to do rather than the parent make assumptions. There is still room for improvement though. It is very common for a child feature to want to dismiss itself, such as is the case when tapping “Cancel”. It is too cumbersome to create a delegate action just to communicate this to the parent, and so the library comes with a special tool for this.
                  */
-            case .addContact:
-                return .none
+//            case .addContact:
+//                return .none
             case let .deleteButtonTapped(id: id):
-                state.alert = AlertState {
-                    TextState("Are you sure?")
-                } actions: {
-                    ButtonState(role: .destructive, action: .confirmDeletion(id: id)) {
-                        TextState("Delete")
+                state.destination = .alert(
+                    AlertState {
+                        TextState("Are you sure?")
+                    } actions: {
+                        ButtonState(role: .destructive, action: .confirmDeletion(id: id)) {
+                            TextState("Delete")
+                        }
                     }
-                }
+                )
                 return .none
-            case let .alert(.presented(.confirmDeletion(id: id))):
-              state.contacts.remove(id: id)
-              return .none
-            case .alert:
-              return .none
             }
         }
-        .ifLet(\.$addContact, action: /Action.addContact) {
-            AddContactFeature()
+        .ifLet(\.$destination, action: /Action.destination) {
+            Destination()
         }
-        .ifLet(\.$alert, action: /Action.alert)
+        
+//        .ifLet(\.$addContact, action: /Action.addContact) {
+//            AddContactFeature()
+//        }
+//        .ifLet(\.$alert, action: /Action.alert)
         
         // Integrate the reducers together by making use of the ifLet(_:action:destination:fileID:line:) reducer operator.
         
@@ -103,6 +123,33 @@ struct ContactsFeature: Reducer {
          After All doing that, finally...
          * That is all it takes to implement communication between parent and child features. The parent feature can create state in order to drive navigation, and the parent feature can listen for child actions to figure out what additional logic it wants to layer on. Next we need to integrate the views together.
          */
+    }
+}
+
+extension ContactsFeature {
+    
+    // Will hold the domain and logic for every feature that can be navigated to from the contacts feature.
+    struct Destination: Reducer {
+        // want to express the fact that only one single destination can be active at a time, and enums are perfect for that.
+        enum State: Equatable {
+            case addContact(AddContactFeature.State)
+            case alert(AlertState<ContactsFeature.Action.Alert>)
+        }
+        
+        enum Action: Equatable {
+            // for each destination feature that can be navigated to, and hold onto that feature’s action.
+            case addContact(AddContactFeature.Action)
+            case alert(ContactsFeature.Action.Alert)
+        }
+        
+        var body: some ReducerOf<Self> {
+            // Compose all of the destination features together by using the 'Scope' reducer to focus on the domain of a reducer.
+            Scope(state: /State.addContact, action: /Action.addContact) {
+                AddContactFeature()
+            }
+            
+            // Typically you will need one Scope reducer for each destination except for alerts and confirmation dialogs since they do not have a reducer of their own.
+        }
     }
 }
 
@@ -141,21 +188,19 @@ struct ContactsView: View {
             }
         }
         .sheet(
-            store: self.store.scope(
-                state: \.$addContact,
-                action: { .addContact($0) }
-            )
-        ) { addContactStore in
-            NavigationStack {
-                AddContactView(store: addContactStore)
+            store: self.store.scope(state: \.$destination, action: { .destination($0) }),
+            state: /ContactsFeature.Destination.State.addContact,
+            action: ContactsFeature.Destination.Action.addContact, content: { addContactStore in
+                NavigationStack {
+                    AddContactView(store: addContactStore)
+                }
             }
-        }
+        )
         .alert(
-              store: self.store.scope(
-                state: \.$alert,
-                action: { .alert($0) }
-              )
-            )
+              store: self.store.scope(state: \.$destination, action: { .destination($0) }),
+              state: /ContactsFeature.Destination.State.alert,
+              action: ContactsFeature.Destination.Action.alert
+        )
 
         /*
           * Before using method .sheet ..
