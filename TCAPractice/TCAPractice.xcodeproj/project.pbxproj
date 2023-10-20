@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E65DF52B2AE277F600204C95 /* NavigationStacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65DF52A2AE277F600204C95 /* NavigationStacks.swift */; };
+		E65DF52D2AE2787300204C95 /* ContactDetailFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65DF52C2AE2787300204C95 /* ContactDetailFeature.swift */; };
 		E6950FBC2AD2827200FA5D33 /* TCAPracticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FBB2AD2827200FA5D33 /* TCAPracticeApp.swift */; };
 		E6950FBE2AD2827200FA5D33 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6950FBD2AD2827200FA5D33 /* ContentView.swift */; };
 		E6950FC02AD2827300FA5D33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6950FBF2AD2827300FA5D33 /* Assets.xcassets */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E65DF52A2AE277F600204C95 /* NavigationStacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStacks.swift; sourceTree = "<group>"; };
+		E65DF52C2AE2787300204C95 /* ContactDetailFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailFeature.swift; sourceTree = "<group>"; };
 		E6950FB82AD2827200FA5D33 /* TCAPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TCAPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6950FBB2AD2827200FA5D33 /* TCAPracticeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCAPracticeApp.swift; sourceTree = "<group>"; };
 		E6950FBD2AD2827200FA5D33 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -76,6 +80,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E65DF5292AE277E500204C95 /* NavigationStacks */ = {
+			isa = PBXGroup;
+			children = (
+				E65DF52A2AE277F600204C95 /* NavigationStacks.swift */,
+			);
+			path = NavigationStacks;
+			sourceTree = "<group>";
+		};
 		E6950FAF2AD2827200FA5D33 = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +217,7 @@
 		E69510252AD7C2D900FA5D33 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				E65DF5292AE277E500204C95 /* NavigationStacks */,
 				E695102E2ADBAF1200FA5D33 /* MultiplePresentationDestinations */,
 				E69510262AD7C2E300FA5D33 /* YourFirstPresentation */,
 				E69510292AD7C47800FA5D33 /* Common */,
@@ -223,6 +236,7 @@
 		E69510292AD7C47800FA5D33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E65DF52C2AE2787300204C95 /* ContactDetailFeature.swift */,
 				E695102A2AD7C48600FA5D33 /* ContactsFeature.swift */,
 				E695102C2AD7D2EA00FA5D33 /* AddContactFeature.swift */,
 			);
@@ -344,8 +358,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6950FDE2AD533CF00FA5D33 /* ManagingATimer.swift in Sources */,
+				E65DF52B2AE277F600204C95 /* NavigationStacks.swift in Sources */,
 				E6950FD92AD3FB9200FA5D33 /* AddingSideEffects.swift in Sources */,
 				E6950FBE2AD2827200FA5D33 /* ContentView.swift in Sources */,
+				E65DF52D2AE2787300204C95 /* ContactDetailFeature.swift in Sources */,
 				E6950FBC2AD2827200FA5D33 /* TCAPracticeApp.swift in Sources */,
 				E695102D2AD7D2EA00FA5D33 /* AddContactFeature.swift in Sources */,
 				E6950FE12AD535EE00FA5D33 /* TestingYourFeature.swift in Sources */,
