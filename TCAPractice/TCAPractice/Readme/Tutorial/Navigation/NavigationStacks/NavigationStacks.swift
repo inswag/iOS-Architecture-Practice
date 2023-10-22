@@ -19,5 +19,7 @@
  < Section 2 - Drill-down to contact detail >
   * Now that a new “Contact Detail” feature has been built we will make it possible to. drill down to it from the main list of contacts.
  
+ < Section 3 - Deleting a contact >
+  * We now have some drill-down functionality in our contacts app, but currently there is no interaction between the detail screen and the contacts list. Let’s change this by allowing you to delete a contact from the detail screen. We will first prompt the user with an alert asking them to confirm deletion, just as we did in Multiple presentation destinations.
  
  */
