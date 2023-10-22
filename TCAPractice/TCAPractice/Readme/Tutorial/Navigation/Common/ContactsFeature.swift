@@ -28,8 +28,15 @@ struct ContactsFeature: Reducer {
 //        @PresentationState var addContact: AddContactFeature.State?
 //        @PresentationState var alert: AlertState<Action.Alert>?
         @PresentationState var destination: Destination.State?
+        
+        /* 
+          * StackState
+            - Generic of the feature that you want to be able to push onto the stack.
+          NOTE)
+            - The StackState type is specifically made for the Composable Architecture, and makes it easy and ergonomic to integrate stack navigation into your applications.
+         */
+        var path = StackState<ContactDetailFeature.State>()
     }
-    
     
     enum Action: Equatable {
         // a single action for when the “+” button is tapped
@@ -43,12 +50,16 @@ struct ContactsFeature: Reducer {
 //        case alert(PresentationAction<Alert>)
         case destination(PresentationAction<Destination.Action>)
         
+        // the actions that can happen inside the stack, such as pushing or popping an element off the stack, or an action happening inside a particular feature inside the stack.
+        case path(StackAction<ContactDetailFeature.State, ContactDetailFeature.Action>)
+        
         enum Alert: Equatable {
             case confirmDeletion(id: Contact.ID)
             // Note - The only choices in the alert are to cancel or confirm deletion, but we do not need to model the cancel action. That will be handled automatically for us.
         }
     }
     
+    @Dependency(\.uuid) var uuid
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -98,11 +109,18 @@ struct ContactsFeature: Reducer {
                     }
                 )
                 return .none
+            case .path:
+              return .none
             }
         }
         .ifLet(\.$destination, action: /Action.destination) {
             Destination()
         }
+        .forEach(\.path, action: /Action.path) {
+          ContactDetailFeature()
+        }
+        
+        // .forEach : operator to integrate the ContactDetailFeature into the stack of the ContactsFeature.
         
 //        .ifLet(\.$addContact, action: /Action.addContact) {
 //            AddContactFeature()
@@ -158,21 +176,25 @@ struct ContactsView: View {
     let store: StoreOf<ContactsFeature>
     
     var body: some View {
-        NavigationStack {
+        // NavigationStackStore : This is a type specifically tuned for driving stacks from a Store. You hand it a store that is scoped down to StackState and StackAction, and it handles the rest.
+        NavigationStackStore(self.store.scope(state: \.path, action: { .path($0)})) {
             // Observes the store in order to show a list of contacts and send actions.
             WithViewStore(self.store, observe: \.contacts) { viewStore in
                 List {
                     ForEach(viewStore.state) { contact in
-                        HStack {
-                            Text(contact.name)
-                            Spacer()
-                            Button {
-                                viewStore.send(.deleteButtonTapped(id: contact.id))
-                            } label: {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.red)
+                        NavigationLink(state: ContactDetailFeature.State(contact: contact)) {
+                            HStack {
+                                Text(contact.name)
+                                Spacer()
+                                Button {
+                                    viewStore.send(.deleteButtonTapped(id: contact.id))
+                                } label: {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.red)
+                                }
                             }
                         }
+                        .buttonStyle(.borderless)
                     }
                 }
                 .navigationTitle("Contacts")
@@ -186,6 +208,8 @@ struct ContactsView: View {
                     }
                 }
             }
+        } destination: { store in
+            ContactDetailView(store: store)
         }
         .sheet(
             store: self.store.scope(state: \.$destination, action: { .destination($0) }),

@@ -16,4 +16,8 @@
  < Section 1 - Contact detail feature >
   * We are going to add a new “Contact Detail” feature that will allow us to drill down a layer from the contacts list at the root.
  
+ < Section 2 - Drill-down to contact detail >
+  * Now that a new “Contact Detail” feature has been built we will make it possible to. drill down to it from the main list of contacts.
+ 
+ 
  */
